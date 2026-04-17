@@ -18,13 +18,40 @@ def save_raw_html(html: str, output_dir: Path, filename: str):
     (output_dir / filename).write_text(html, encoding="utf-8")
 
 
-def fetch_html_content(url, timeout: int = 3, save_html: bool = True):
-    try:
-        response = requests.get(url, timeout=timeout)
-        response.raise_for_status()
-        if save_html:
-            save_raw_html(response.text, output_dir=Path("data/raw/html/"), filename="home_office_library.html")
-        return response.text
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching {url}: {e}")
-        return None
+def fetch_html_content(url, timeout: int = 3, page_count: int = 1, save_html: bool = True):
+    """
+    Fetches HTML content from the specified URL with pagination support.
+    
+    Args:
+        url (str): The base URL to fetch HTML content from.
+        timeout (int): The timeout for the HTTP request in seconds.
+        page_count (int): The number of pages to fetch.
+        save_html (bool): Whether to save the fetched HTML content to files.
+        
+    Returns:
+        list: A list of HTML content for each fetched page.
+    """
+
+    html_content_list = []
+
+    if save_html:
+        output_dir = f"data/raw/html/{datetime.now()}"
+    
+    for page_num in range(page_count):
+        # construct the url
+        page_url = f"{url}?pagination%5BpageNumber%5D={page_num}&pagination%5BpageSize%5D=100"
+        
+        try:
+            response = requests.get(page_url, timeout=timeout)
+            response.raise_for_status()
+            # Append the HTML content to the list
+            html_content_list.append(response.text)
+            
+            if save_html:
+                save_raw_html(response.text, output_dir=Path(output_dir), filename=f"html_response_page_{page_num}.html")
+            
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching {url}: {e}")
+            return None
+
+    return html_content_list
