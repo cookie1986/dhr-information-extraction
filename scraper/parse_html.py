@@ -1,15 +1,19 @@
 from pathlib import Path
 import pandas as pd
 from bs4 import BeautifulSoup
+from scraper.selectors import results_selector, subsection_selector, title_selector, download_selector
 
-# CSS selectors for parsing DHR results page
-results_selector = "section[aria-label^='DHR result']"
-subsection_selector = ".govuk-grid-row.govuk-\!-padding-top-2 .govuk-grid-column-one-quarter .govuk-label.dhrr-results-card--detail-value"
-title_selector = "h3.govuk-heading-s"
-download_selector = ".govuk-grid-row.govuk-\!-padding-top-2 .govuk-grid-column-full .govuk-button-group.govuk-\!-margin-0 a[href^='/download/']"
 
-# Function to parse DHR results page
 def parse_dhr_results(html_content_list: list):
+    """
+    Parse DHR results from a list of HTML content strings
+    
+    Args:
+        html_content_list (list): List of HTML content strings
+    
+    Returns:
+        list: List of BeautifulSoup elements representing DHR results sections
+    """
     dhr_results = []
     for html_content in html_content_list:
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -18,14 +22,23 @@ def parse_dhr_results(html_content_list: list):
     return dhr_results
 
 
-# Function to extract data from DHR results sections
 def extract_data_from_section(dhr_results: list, output_dir: Path = "data/interim/", print_output: str = None):
+    """
+    Extract data from DHR results sections and save to CSV
+    
+    Args:
+        dhr_results (list): List of BeautifulSoup elements representing DHR results sections
+        output_dir (Path, optional): Directory to save the extracted data CSV. Defaults to "data/interim/".
+        print_output (str, optional): Level of detail to print during extraction. Options: 'verbose', 'title_only', None. Defaults to None.
+        
+        Returns:
+            pd.DataFrame: DataFrame containing the extracted data
+    """
     
     # Initialise empty dataframe to hold extracted data
     df = pd.DataFrame(columns=["title", "csp", "region", "upload_date", "death_date", "download_id"])
     
     # Loop through DHR result in HTML and extract relevant data
-    
     for dhr in dhr_results:
     
         # Empty list to hold data extracted from HTML
