@@ -1,7 +1,7 @@
 from pathlib import Path
 import pandas as pd
 from bs4 import BeautifulSoup
-from scraper.selectors import results_selector, subsection_selector, title_selector, download_selector
+from scraper.selectors import RESULTS_SELECTOR, SUBSECTION_SELECTOR, TITLE_SELECTOR, DOWNLOAD_SELECTOR
 
 
 def parse_dhr_results(html_content_list: list):
@@ -17,7 +17,7 @@ def parse_dhr_results(html_content_list: list):
     dhr_results = []
     for html_content in html_content_list:
         soup = BeautifulSoup(html_content, 'html.parser')
-        dhr_results.extend(soup.select(results_selector))
+        dhr_results.extend(soup.select(RESULTS_SELECTOR))
 
     return dhr_results
 
@@ -45,11 +45,11 @@ def extract_data_from_section(dhr_results: list, output_dir: Path = "data/interi
         extracted_data = []
 
         # Extract title
-        title_element = dhr.select_one(title_selector)
+        title_element = dhr.select_one(TITLE_SELECTOR)
         title = " ".join(s.strip() for s in title_element.find_all(string=True, recursive=False) if s.strip()) if title_element else "N/A"
 
         # Extract CSP, region, date of upload, date of death
-        dhr_subsections = dhr.select(subsection_selector)
+        dhr_subsections = dhr.select(SUBSECTION_SELECTOR)
         csp = dhr_subsections[0].get_text().strip() if dhr_subsections else "N/A"
 
         csp_region = dhr_subsections[1].get_text().strip() if len(dhr_subsections) > 1 else "N/A"
@@ -57,7 +57,7 @@ def extract_data_from_section(dhr_results: list, output_dir: Path = "data/interi
         death_date = dhr_subsections[3].get_text().strip() if len(dhr_subsections) > 3 else "N/A"
 
         # Extract the download ID
-        download_tag = dhr.select_one(download_selector)['href'] if dhr.select_one(download_selector) else None
+        download_tag = dhr.select_one(DOWNLOAD_SELECTOR)['href'] if dhr.select_one(DOWNLOAD_SELECTOR) else None
         download_id = download_tag.split('/')[-1] if download_tag else "N/A"
 
         # Append extracted data to list
