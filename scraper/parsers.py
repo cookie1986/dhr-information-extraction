@@ -1,19 +1,27 @@
+import math
 from pathlib import Path
 import pandas as pd
 from bs4 import BeautifulSoup
-from scraper.selectors import RESULTS_SELECTOR, SUBSECTION_SELECTOR, TITLE_SELECTOR, DOWNLOAD_SELECTOR
+from css_selectors import TOTAL_REPORTS_SELECTOR, RESULTS_SELECTOR, TITLE_SELECTOR, SUBSECTION_SELECTOR, DOWNLOAD_SELECTOR
+
+def count_total_reports(html_content: str) -> int:
+    """Count the total number of reports from the HTML content."""
+    soup = BeautifulSoup(html_content, 'html.parser')
+    total_results_caption = soup.select(TOTAL_REPORTS_SELECTOR)
+    for element in total_results_caption:
+        if element.get_text(strip=True).startswith("Showing results"):
+            total_results = element.get_text(strip=True)
+            return int(total_results.split()[-1])
+    return 0
 
 
-def parse_dhr_results(html_content_list: list):
-    """
-    Parse DHR results from a list of HTML content strings
-    
-    Args:
-        html_content_list (list): List of HTML content strings
-    
-    Returns:
-        list: List of BeautifulSoup elements representing DHR results sections
-    """
+def calculate_total_pages(total_reports: int, page_size: int = 100) -> int:
+    """Calculate the total number of pages to iterate over based on the total number of reports and the max page size."""
+    return math.ceil(total_reports / page_size)
+
+
+def parse_dhr_reports(html_content_list: list):
+    """Parse individual DHR reports from a list of HTML content strings"""
     dhr_results = []
     for html_content in html_content_list:
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -22,7 +30,7 @@ def parse_dhr_results(html_content_list: list):
     return dhr_results
 
 
-def extract_data_from_section(dhr_results: list, output_dir: Path = "data/interim/", print_output: str = None):
+def extract_structured_data(dhr_results: list, output_dir: Path = "data/interim/"):
     """
     Extract data from DHR results sections and save to CSV
     
@@ -69,20 +77,6 @@ def extract_data_from_section(dhr_results: list, output_dir: Path = "data/interi
             "death_date": death_date,
             "download_id": download_id
         })
-
-        # Auditing
-        if print_output == 'verbose':
-            print(f"Title: {title}")
-            print(f"Community Service Partnership: {csp}")
-            print(f"Region: {csp_region}")
-            print(f"Upload Date: {upload_date}")
-            print(f"Death Date: {death_date}")
-            print(f"Download ID: {download_id}")
-            print("-------end of section-------")
-        elif print_output == 'title_only':
-            print(f"Title: {title}")
-        else:
-            pass
 
         # Add extracted data to dataframe
         df = pd.concat([df, pd.DataFrame(extracted_data)], ignore_index=True)

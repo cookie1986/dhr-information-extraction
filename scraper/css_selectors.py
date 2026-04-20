@@ -1,5 +1,5 @@
 """
-selectors.py
+css_selectors.py
 
 Central store for CSS selectors used in the scraper and parser modules.
 """
