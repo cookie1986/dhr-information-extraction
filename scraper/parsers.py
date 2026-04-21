@@ -30,6 +30,14 @@ def parse_dhr_reports(html_content_list: list):
     return dhr_results
 
 
+def parse_download_id(dhr_result: str):
+    """Parse download ID from a DHR search result segment"""
+    download_tag = dhr_result.select_one(DOWNLOAD_SELECTOR)['href'] if dhr_result.select_one(DOWNLOAD_SELECTOR) else None
+    download_id = download_tag.split('/')[-1] if download_tag else "N/A"
+    
+    return download_id
+
+
 def extract_structured_data(dhr_results: list, output_dir: Path = "data/interim/"):
     """
     Extract data from DHR results sections and save to CSV
@@ -65,8 +73,7 @@ def extract_structured_data(dhr_results: list, output_dir: Path = "data/interim/
         death_date = dhr_subsections[3].get_text().strip() if len(dhr_subsections) > 3 else "N/A"
 
         # Extract the download ID
-        download_tag = dhr.select_one(DOWNLOAD_SELECTOR)['href'] if dhr.select_one(DOWNLOAD_SELECTOR) else None
-        download_id = download_tag.split('/')[-1] if download_tag else "N/A"
+        download_id = parse_download_id(dhr)
 
         # Append extracted data to list
         extracted_data.append({
