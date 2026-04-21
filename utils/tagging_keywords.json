@@ -1,14 +1,14 @@
 {
-    "most_filtered_for":[
-        "Intimate-partner+homicide",
-        "Familial+homicide",
-        "Parricide+%28parent+and+step+parents%29",
+    "keywords":[
+        "Intimate-partner homicide",
+        "Familial homicide",
+        "Parricide (parent and step parents)",
         "Homicide-suicide",
-        "Mental+health+%28victim%29",
-        "Mental+health+%28perpetrator%29",
-        "Minority+Communities+%28victim+and/or+perpetrator%29",
-        "LGBTQ+%28victim+and/or+perpetrator%29",
-        "Not+ruled+as+homicide+or+suicide+%28neglect/+negligence%29",
-        "Suicide+%28victim%29"
+        "Mental health (victim)",
+        "Mental health (perpetrator)",
+        "Minority Communities (victim and/or perpetrator)",
+        "LGBTQ (victim and/or perpetrator)",
+        "Not ruled as homicide or suicide (neglect/ negligence)",
+        "Suicide (victim)"
     ]
 }
