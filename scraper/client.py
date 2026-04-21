@@ -1,7 +1,5 @@
 import requests
-import os
 from typing import Optional
-from datetime import datetime
 
 def fetch_html(url: str, timeout: int = 3, params: Optional[dict] = None) -> str:
     """Fetch HTML content from the specified URL with optional query parameters."""

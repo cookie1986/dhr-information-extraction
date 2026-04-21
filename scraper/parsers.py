@@ -2,7 +2,7 @@ import math
 from pathlib import Path
 import pandas as pd
 from bs4 import BeautifulSoup
-from css_selectors import TOTAL_REPORTS_SELECTOR, RESULTS_SELECTOR, TITLE_SELECTOR, SUBSECTION_SELECTOR, DOWNLOAD_SELECTOR
+from scraper.css_selectors import TOTAL_REPORTS_SELECTOR, RESULTS_SELECTOR, TITLE_SELECTOR, SUBSECTION_SELECTOR, DOWNLOAD_SELECTOR
 
 def count_total_reports(html_content: str) -> int:
     """Count the total number of reports from the HTML content."""
