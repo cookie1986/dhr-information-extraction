@@ -1,3 +1,9 @@
 venv/
 data/
 scratchpad/
+
+# remove once completed
+citation.cff
+LICENSE
+docs/
+outputs/
