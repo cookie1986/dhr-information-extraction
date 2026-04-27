@@ -47,6 +47,18 @@ def extract_page_data(url: str, timeout: int = 3, results_dir: str = "data/inter
     extract_structured_data(dhr_results=dhr_results, output_dir=results_dir)
 
 
+def build_query_params(filter_param_key, filter_param_val, page_number = 0, page_size=100):
+    # Set base params
+    params = {
+        "pagination[pageNumber]": page_number,
+        "pagination[pageSize]": page_size
+    }
+    # Append selected filter to params
+    params[filter_param_key] = filter_param_val
+
+    return params
+
+
 def extract_page_tags(url: str, results_dir: str, keywords_dir: str):
     # Check if results file already exists
     if check_file_exists(results_dir):
@@ -54,44 +66,45 @@ def extract_page_tags(url: str, results_dir: str, keywords_dir: str):
         
         # Load keywords file
         with open(keywords_dir, 'r') as f:
-            keywords_json = json.load(f)
-        keywords = [k for k in keywords_json['keywords']]
+            filters = json.load(f)
         
-        # Call first page of each keyworded url
-        for k in keywords:
-            pages = []
-            params = {
-                "pagination[pageNumber]": 0,
-                "pagination[pageSize]": 100,
-                "internal.dhr-category[]": k
-                }
-            pages.append(fetch_html(url=url, timeout=3, params=params))
-            
-            # Calculate total reports under keyword - pagination support
-            total_reports_in_query = count_total_reports(pages[0])
-            
-            if total_reports_in_query < 1:
-                # A known bug caused by 'showing results' section of count_total_reports -- this should be a hacky workaround for now
-                total_pages_in_query = 1
-            else:
-                # Calculate total pages to iterate over
-                total_pages_in_query = calculate_total_pages(total_reports=total_reports_in_query)
-            
-            # Iterate over remaining pages and append to list
-            for page_num in range(1, total_pages_in_query):
-                # Update params with new page number
-                params['pagination[pageNumber]'] = page_num
-                # Fetch HTML and add to list
+        # Build search parameters
+        for query in filters:
+            p_key = query["parameter_key"]
+            for p_val in query["parameter_values"]:
+                params = build_query_params(filter_param_key = p_key, filter_param_val = p_val)
+
+                pages = []
                 pages.append(fetch_html(url=url, timeout=3, params=params))
             
-            # Parse DHR reports from page content
-            dhr_query_results = parse_dhr_reports(html_content_list=pages)
+                # Calculate total reports under keyword - pagination support
+                total_reports_in_query = count_total_reports(pages[0])
+                
+                if total_reports_in_query < 1:
+                    # A known bug caused by 'showing results' section of count_total_reports -- this should be a hacky workaround for now
+                    total_pages_in_query = 1
+                else:
+                    # Calculate total pages to iterate over
+                    total_pages_in_query = calculate_total_pages(total_reports=total_reports_in_query)
             
-            # Extract the download IDs
-            download_ids = [parse_download_id(dhr) for dhr in dhr_query_results]
+                # Iterate over remaining pages and append to list
+                for page_num in range(1, total_pages_in_query):
+                    # Update params with new page number
+                    params['pagination[pageNumber]'] = page_num
+                    # Fetch HTML and add to list
+                    pages.append(fetch_html(url=url, timeout=3, params=params))
+                
+                # Parse DHR reports from page content
+                dhr_query_results = parse_dhr_reports(html_content_list=pages)
+                
+                # Extract the download IDs
+                download_ids = [parse_download_id(dhr) for dhr in dhr_query_results]
 
-            # Cross ref with results page and mark 'Y' if download ID present, 'N' otherwise
-            results_data[k] = results_data['download_id'].isin(download_ids).map({True: "True", False: "False"})
+                # Generate column name
+                col_name = f"{p_key}_{p_val}"
+
+                # Cross ref with results page and mark 'Y' if download ID present, 'N' otherwise
+                results_data[col_name] = results_data['download_id'].isin(download_ids).map({True: "True", False: "False"})
         
         # Write the updated file to CSV
-        results_data.to_csv('data/interim/dhr_results_updated_tags.csv', index=False)
+        results_data.to_csv('data/interim/dhr_results_updated_tags_270426.csv', index=False)
