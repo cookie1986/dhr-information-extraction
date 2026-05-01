@@ -107,4 +107,4 @@ def extract_page_tags(url: str, results_dir: str, keywords_dir: str):
                 results_data[col_name] = results_data['download_id'].isin(download_ids).map({True: "True", False: "False"})
         
         # Write the updated file to CSV
-        results_data.to_csv('data/interim/dhr_results_updated_tags_270426.csv', index=False)
+        results_data.to_csv('data/interim/dhr_results_updated_tags_010526.csv', index=False)
