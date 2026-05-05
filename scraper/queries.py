@@ -10,7 +10,7 @@ from scraper.parsers import count_total_reports, calculate_total_pages, parse_dh
 from utils.filesystem import check_file_exists
 
 
-def extract_page_data(url: str, timeout: int = 3, results_dir: str = "data/interim/"):
+def extract_page_data(url: str, timeout: int = 3, results_dir: str = "data/raw/tags/"):
     """
     High-level function to extract data from DHR reports.
     
@@ -107,4 +107,4 @@ def extract_page_tags(url: str, results_dir: str, keywords_dir: str):
                 results_data[col_name] = results_data['download_id'].isin(download_ids).map({True: "True", False: "False"})
         
         # Write the updated file to CSV
-        results_data.to_csv('data/interim/dhr_results_updated_tags_010526.csv', index=False)
+        results_data.to_csv('data/raw/tags/dhr_tag_matrix.csv', index=False)

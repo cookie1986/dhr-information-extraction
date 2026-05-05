@@ -38,13 +38,13 @@ def parse_download_id(dhr_result: str):
     return download_id
 
 
-def extract_structured_data(dhr_results: list, output_dir: Path = "data/interim/"):
+def extract_structured_data(dhr_results: list, output_dir: Path = "data/raw/tags/"):
     """
     Extract data from DHR results sections and save to CSV
     
     Args:
         dhr_results (list): List of BeautifulSoup elements representing DHR results sections
-        output_dir (Path, optional): Directory to save the extracted data CSV. Defaults to "data/interim/".
+        output_dir (Path, optional): Directory to save the extracted data CSV. Defaults to "data/raw/tags/".
         print_output (str, optional): Level of detail to print during extraction. Options: 'verbose', 'title_only', None. Defaults to None.
         
         Returns:
