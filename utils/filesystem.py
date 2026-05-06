@@ -9,3 +9,9 @@ def check_file_exists(file_dir: str):
         return True
     else:
         raise FileNotFoundError(f"Results file not found for: {file_dir}")
+    
+def set_output_directory(output_dir: str) -> Path:
+    """Set an output directory."""
+    output_path = Path(output_dir)
+    output_path.mkdir(parents=True, exist_ok=True)
+    return output_path
