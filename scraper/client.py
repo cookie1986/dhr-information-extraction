@@ -1,7 +1,9 @@
+# client.py
+
 import requests
 from typing import Optional
 
-def fetch_html(url: str, timeout: int = 3, params: Optional[dict] = None) -> str:
+def get_html(url: str, timeout: int = 3, params: Optional[dict] = None) -> str:
     """Fetch HTML content from the specified URL with optional query parameters."""
     try:
         response = requests.get(url, timeout=timeout, params=params)
