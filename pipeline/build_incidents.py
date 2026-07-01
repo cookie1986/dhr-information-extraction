@@ -51,27 +51,5 @@ def build_incidents(tag_matrix: str, col_mapping_file: str, output_dir: str):
 
             incidents[output_col] = selected.where(has_value)
 
-   
-    # for col in column_map:
-    #     raw_cols = col["raw_cols"]
-    #     output_col = col["argmax_col"]
-
-    #     if len(raw_cols) == 1:
-    #         incidents[output_col] = tags[raw_cols[0]]
-
-    #     else:
-    #         # Clean names from the raw column names
-    #         value_map = {
-    #             raw_col: raw_col.split("[]_")[-1]
-    #             for raw_col in raw_cols
-    #         }
-
-    #         # Find the first TRUE column per row
-    #         incidents[output_col] = (
-    #             tags[raw_cols]
-    #             .idxmax(axis=1)
-    #             .map(value_map)
-    #         )
-
     # store output
     incidents.to_csv(Path(output_dir), index=False)
