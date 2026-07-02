@@ -3,7 +3,8 @@
 > Work in Progress (06-05-26): this repository has been made public before the project is fully finished. The code, documentation, and structure are still subject to change.
 
 ## Overview
-This repository contains early-stage work for an ongoing information extraction project, using DHR reports obtained from the Home Office as inputs. 
+
+This repository contains early-stage work for an ongoing information extraction project, using DHR reports obtained from the Home Office as inputs.
 
 The aim of the project is improve accessibility to DHRs and interpretability of their content. A protocol for this project is being made available and will be linked here.
 
@@ -23,6 +24,7 @@ PLOS ONE.
 </details>
 
 ## Current Status (as of 6th May 2026)
+
 This project is currently under active development. Some components may be incomplete, experimental, undocumented, or likely to change.
 
 At this stage, the repository may include:
@@ -33,6 +35,7 @@ At this stage, the repository may include:
 - partial documentation
 
 ## Repository Structure
+
 ```
 .
 ├── data/          # Data files or data-processing notes
@@ -46,12 +49,15 @@ At this stage, the repository may include:
 ├── requirements.txt
 └── .gitignore
 ```
+
 This structure may change as the project develops.
 
 ## Installation
+
 Installation instructions are not final yet.
 
 For now, a typical setup may look like:
+
 ```bash
 git clone dhr-information-extraction
 cd dhr-information-extraction
@@ -59,22 +65,28 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+
 **Please note:** requirements.txt is subject to change, may be missing, or incomplete.
 
-## Usage 
+## Usage
+
 Usage instructions are still being developed.
 
 Example commands and scripts will be added here once the codebase is more stable.
 
 ## Data
-Any data included or referenced in this repo is provided for development or research purposes only, unless otherwise stated.
+
+A link to the dataset can be found [here](https://zenodo.org/records/21108268).
 
 ## Notes
+
 Because this is a work in progress, please do not treat the current codebase as a stable or final implementation.
 
 ## License
 
-License information will be added soon.
+This repo is made available under the Creative Commons Attribution 4.0 International License (CC BY 4.0). Users may share and adapt the dataset, including for commercial purposes, provided appropriate attribution is given.
+
+See `LICENSE` for details.
 
 ## Contact
 
