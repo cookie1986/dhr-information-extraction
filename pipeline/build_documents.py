@@ -20,13 +20,13 @@ def build_documents(
     documents[foreign_key_name] = fk[foreign_key_name]
     
     # add columns from tag that can be taken as-is
-    documents = documents.join(tags[['upload_date','download_id']])
+    documents = documents.join(tags[['upload_date','download_id','title']])
 
     # generate download links
     documents['report_url'] = documents['download_id'].apply(lambda x: f"https://homicide-review.homeoffice.gov.uk/download/{x}")
 
     # reorder columns
-    documents = documents[['document_id','incident_id','download_id','upload_date','report_url']]
+    documents = documents[['document_id','incident_id','title','download_id','upload_date','report_url']]
 
     # store output
     documents.to_csv(Path(output_dir), index=False)
