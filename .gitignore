@@ -1,5 +1,7 @@
 venv/
 data/
+releases/
+release_assets/
 *.egg-info
 
 # remove once completed

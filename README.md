@@ -82,6 +82,27 @@ A link to the dataset can be found [here](https://zenodo.org/records/21108268).
 
 Because this is a work in progress, please do not treat the current codebase as a stable or final implementation.
 
+
+### Version Convention
+
+#### Major
+
+1.1.0 → 2.0.0
+
+Breaking schema changes, substantial redesign, changed interpretation of existing fields.
+
+#### Minor
+
+1.0.1 → 1.1.0
+
+New DHRs added, new variables/tables, backwards-compatible additions.
+
+#### Patch
+
+1.0.0 → 1.0.1
+
+Corrections, extraction fixes, metadata fixes, reprocessing that doesn't change the schema.
+
 ## License
 
 This repo is made available under the Creative Commons Attribution 4.0 International License (CC BY 4.0). Users may share and adapt the dataset, including for commercial purposes, provided appropriate attribution is given.
