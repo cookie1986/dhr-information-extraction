@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from scraper.selectors import RESULTS_SELECTOR, DOWNLOAD_SELECTOR, TITLE_SELECTOR
+from dhrd.scraper.selectors import RESULTS_SELECTOR, DOWNLOAD_SELECTOR, TITLE_SELECTOR
 
 def parse_dhr_reports(html_content_list: list):
     """Parse individual DHR reports from a list of HTML content strings"""

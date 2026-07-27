@@ -1,6 +1,6 @@
 import math
 from bs4 import BeautifulSoup
-from scraper.selectors import TOTAL_REPORTS_SELECTOR
+from dhrd.scraper.selectors import TOTAL_REPORTS_SELECTOR
 
 def count_total_reports(html_content: str) -> int:
     """Count the total number of reports from the HTML content."""

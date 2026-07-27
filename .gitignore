@@ -1,6 +1,6 @@
 venv/
 data/
-scratchpad/
+*.egg-info
 
 # remove once completed
 citation.cff

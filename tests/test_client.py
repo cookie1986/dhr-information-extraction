@@ -1,7 +1,7 @@
 # test_client.py
 
 from unittest.mock import patch
-from scraper.client import get_html
+from dhrd.scraper.client import get_html
 
 @patch('scraper.client.requests.get')
 def test_get_html(mock_get):

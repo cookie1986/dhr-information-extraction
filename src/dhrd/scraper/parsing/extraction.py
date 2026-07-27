@@ -1,7 +1,7 @@
 from pathlib import Path
 import pandas as pd
-from scraper.selectors import SUBSECTION_SELECTOR
-from scraper.parsing.reports import parse_download_id, parse_title
+from dhrd.scraper.selectors import SUBSECTION_SELECTOR
+from dhrd.scraper.parsing.reports import parse_download_id, parse_title
 
 def extract_report_data(dhr_results: list, output_dir: Path = "data/raw/tags/"):
     """

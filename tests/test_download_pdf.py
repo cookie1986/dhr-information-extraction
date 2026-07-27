@@ -1,8 +1,7 @@
 # test_download.py
 
 from unittest.mock import patch
-from pathlib import Path
-from scraper.download.pdfs import download_pdf
+from dhrd.scraper.download.pdfs import download_pdf
 
 @patch('scraper.download.pdfs.requests.get')
 def test_download_pdf(mock_get, tmp_path):
