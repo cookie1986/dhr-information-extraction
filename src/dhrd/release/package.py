@@ -32,11 +32,24 @@ def package_release(part: str) -> str:
         else:
             shutil.copy2(item, destination)
 
+    zip_path = release_dir / f"dhr-data-release-v{version}.zip"
+
+    files_to_zip = [
+        file
+        for file in release_dir.rglob("*")
+        if file.is_file() and file != zip_path
+    ]
+
     with zipfile.ZipFile(
-        release_dir / f"dhr-data-release-v{version}.zip", mode="w",
-        compression=zipfile.ZIP_DEFLATED
-        ) as zf:
-        [zf.write(file) for file in RELEASE_ASSETS_DIR.iterdir()]
+        zip_path,
+        mode="w",
+        compression=zipfile.ZIP_DEFLATED,
+    ) as zf:
+        for file in files_to_zip:
+            zf.write(
+                file,
+                arcname=file.relative_to(release_dir),
+            )
 
     print(f"Packaged dataset release {version}")
 
